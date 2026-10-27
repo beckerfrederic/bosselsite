@@ -34,6 +34,7 @@
 
   /* Kopf */
   .top { background: #1b4332; color: #fff; position: relative; overflow: hidden; }
+  .werfer-svg { position: absolute; z-index: 0; left: -20px; bottom: -60px; width: 200px; pointer-events: none; }
   .kugel-svg { position: absolute; z-index: 0; right: -30px; bottom: -70px; width: 280px; opacity: .95; animation: float 7s ease-in-out infinite; pointer-events: none; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
   .top::before {
@@ -46,7 +47,7 @@
   .brand .pill { background: rgba(255,255,255,.1); padding: 6px 12px; border-radius: 999px; }
   .top h1 { font-size: clamp(2.3rem, 6vw, 3.9rem); margin-top: 36px; max-width: 13ch; }
   .top p.lead { color: #bfcdc4; max-width: 56ch; margin: 16px 0 0; font-size: 1.05rem; }
-  @media (max-width: 640px) { .kugel-svg { width: 170px; right: -30px; bottom: -40px; opacity: .6; } }
+  @media (max-width: 640px) { .werfer-svg { width: 130px; left: -24px; bottom: -36px; opacity: .6; } .kugel-svg { width: 170px; right: -30px; bottom: -40px; opacity: .6; } }
 
   /* Layout */
   main { max-width: 960px; margin: -56px auto 0; padding: 0 22px 64px; position: relative; z-index: 2; }
@@ -182,6 +183,17 @@
 <body>
 
 <header class="top">
+  <svg class="werfer-svg" viewBox="0 0 200 300" aria-hidden="true">
+    <g fill="none" stroke="rgba(0,0,0,.32)" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M110 74 L150 50 L170 30" stroke-width="13"/>
+      <path d="M80 76 L62 118 L54 150" stroke-width="11"/>
+      <path d="M100 172 L128 232 L146 292" stroke-width="17"/>
+      <path d="M88 174 L62 232 L44 292" stroke-width="17"/>
+    </g>
+    <path fill="rgba(0,0,0,.32)" d="M78 62 Q100 56 114 66 L106 172 Q94 180 80 172 Z"/>
+    <circle fill="rgba(0,0,0,.32)" cx="96" cy="40" r="18"/>
+    <circle fill="#ff7a1a" opacity=".85" cx="181" cy="22" r="9"/>
+  </svg>
   <svg class="kugel-svg" viewBox="0 0 200 200" aria-hidden="true">
     <defs>
       <radialGradient id="kg" cx="35%" cy="30%" r="75%">
@@ -306,7 +318,13 @@ let pendingStammCode = '';   // Stammcode, der zum Anmelden gebraucht wird
 const view = document.getElementById('view');
 const banner = document.getElementById('banner');
 const track = document.getElementById('track');
-const germanDate = (iso) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso)); return m ? `${m[3]}.${m[2]}.${m[1]}` : String(iso); };
+const germanDate = (v) => {
+  const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(v).trim());
+  if (iso) return `${iso[3]}.${iso[2]}.${iso[1]}`;
+  const d = new Date(v);
+  if (isNaN(d)) return String(v);
+  return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`;
+};
 const validPhone = (v) => { const d = String(v || '').replace(/ /g, ''); return /^0\d{6,15}$/.test(d) || /^00\d{6,15}$/.test(d); };
 const eur = (n) => Number(n).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
 const escapeHtml = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
