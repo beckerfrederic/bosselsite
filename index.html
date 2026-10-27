@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kohlfahrt mit Boßeln - Anmeldung</title>
+<title>Siebte Bonner Boßelmeisterschaft - Anmeldung</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -33,7 +33,7 @@
   h1, h2, .display { font-family: "Manrope", "Inter", system-ui, sans-serif; font-weight: 800; letter-spacing: -0.02em; margin: 0; line-height: 1.1; }
 
   /* Kopf */
-  .top { background: var(--ink); color: #fff; position: relative; overflow: hidden; }
+  .top { background: #1b4332; color: #fff; position: relative; overflow: hidden; }
   .kugel-svg { position: absolute; z-index: 0; right: -30px; bottom: -70px; width: 280px; opacity: .95; animation: float 7s ease-in-out infinite; pointer-events: none; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
   .top::before {
@@ -165,6 +165,18 @@
   .lookup-res { margin-top: 18px; }
   footer { text-align: center; color: var(--muted); font-size: .85rem; margin: 30px 0 0; }
   .loading { color: var(--muted); font-style: italic; }
+  .hint { color: var(--muted); font-size: .88rem; margin: 8px 0 0; }
+  .info { margin-top: 16px; }
+  .info h2 { margin-bottom: 10px; }
+  .facts { margin: 22px 0 0; }
+  .facts > div { display: grid; grid-template-columns: 130px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid #ecede7; }
+  .facts dt { font-weight: 700; color: var(--ink); }
+  .facts dd { margin: 0; color: var(--ink-2); }
+  .facts .src { color: var(--muted); font-size: .88rem; }
+  .links { margin: 8px 0 0; padding-left: 20px; }
+  .links li { margin: 6px 0; }
+  .links a { color: var(--moss); font-weight: 600; }
+  @media (max-width: 560px) { .facts > div { grid-template-columns: 1fr; gap: 4px; } }
 </style>
 </head>
 <body>
@@ -182,9 +194,9 @@
     <circle cx="70" cy="60" r="6" fill="rgba(255,255,255,.35)"/>
   </svg>
   <div class="top-inner">
-    <div class="brand"><span class="pill">Bonn</span><span>Kohlfahrt mit Boßeln</span></div>
+    <div class="brand"><span class="pill">Bonn</span><span>Siebte Bonner Boßelmeisterschaft</span></div>
     <h1 class="display">Wer wirft, der bleibt dabei.</h1>
-    <p class="lead">Grünkohl, Kälte und eine bunte Runde. Die Plätze sind begrenzt, deshalb gibt es klare Regeln: Stammspieler zuerst, dann die offene Liste mit Los und Platz für Neue über Gäste.</p>
+    <p class="lead">Grünkohl, Kälte und eine bunte Runde. Die Plätze sind begrenzt, deshalb gibt es klare Regeln: Stammspieler zuerst, dann die offene Liste. Platz für Neue gibt es über Gäste. Bei Überhang wird gelost.</p>
   </div>
 </header>
 
@@ -196,6 +208,31 @@
   </div>
 
   <div class="card" id="view"><p class="loading">Lade Anmeldung …</p></div>
+
+  <section class="card info" aria-labelledby="infoTitel">
+    <p class="eyebrow">Der Tag im Überblick</p>
+    <h2 id="infoTitel">Siebte Bonner Boßelmeisterschaft</h2>
+    <p class="muted">Eure liebste heidnisch norddeutsche Tradition geht in die siebte Runde. Gespielt wird im Winter, nach der Grünkohlernte, auf Wegen im Kottenforst.</p>
+
+    <dl class="facts">
+      <div><dt>Was</dt><dd>Boßeln, ein Freiluftspiel. Ziel ist es, eine Kugel mit möglichst wenigen Würfen über eine festgelegte Strecke zu werfen. Die Sportart heißt in einigen Regionen auch Klootschießen.<span class="src"> (Quelle: Wikipedia)</span></dd></div>
+      <div><dt>Wann</dt><dd>Samstag, 23. Januar 2027</dd></div>
+      <div><dt>Treffpunkt</dt><dd>Bahnhof Kottenforst bei Bonn/Meckenheim, <strong>11:30 Uhr</strong></dd></div>
+      <div><dt>Ablauf</dt><dd>Vier bis sechs Boßelwagen begleiten die Runde mit Getränken und Snacks unterwegs. Am Ende wartet in der Gaststätte Bahnhof Kottenforst das Grünkohlbuffet mit Kartoffeln, Mettenden und Kasseler.</dd></div>
+      <div><dt>Mitbringen</dt><dd>Warme Kleidung, feste Schuhe und etwas gegen Regen. Vorher gut frühstücken hilft.</dd></div>
+      <div><dt>Anreise</dt><dd>Mit dem PKW oder dem ÖPNV. Der Bahnhof Kottenforst ist flexibel erreichbar.</dd></div>
+    </dl>
+
+    <p class="muted" style="margin-top:18px">Zum Einstieg, Erklärvideos:</p>
+    <ul class="links">
+      <li><a href="https://www.youtube.com/watch?v=rKuef1ysqcE" target="_blank" rel="noopener">Erklärvideo 1</a></li>
+      <li><a href="https://www.youtube.com/watch?v=vz6kp2ehPGg" target="_blank" rel="noopener">Erklärvideo 2</a></li>
+    </ul>
+    <p class="muted" style="margin-top:18px">Die Videos aus den letzten Jahren:</p>
+    <ul class="links">
+      <li><a href="https://www.youtube.com/watch?v=OQVtqYT2mF8" target="_blank" rel="noopener">Impressionen des letzten Events</a></li>
+    </ul>
+  </section>
 
   <footer>Persönliche Daten werden nur für die Organisation genutzt und danach gelöscht.</footer>
 </main>
@@ -269,6 +306,8 @@ let pendingStammCode = '';   // Stammcode, der zum Anmelden gebraucht wird
 const view = document.getElementById('view');
 const banner = document.getElementById('banner');
 const track = document.getElementById('track');
+const germanDate = (iso) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso)); return m ? `${m[3]}.${m[2]}.${m[1]}` : String(iso); };
+const validPhone = (v) => { const d = String(v || '').replace(/ /g, ''); return /^0\d{6,15}$/.test(d) || /^00\d{6,15}$/.test(d); };
 const eur = (n) => Number(n).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
 const escapeHtml = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const mealById = (id) => MEALS.find(m => m.id === id);
@@ -321,7 +360,7 @@ function showHome() {
   const meals = MEALS.map(m => `<div><span>${escapeHtml(m.label)}</span><strong>${eur(m.price)}</strong></div>`).join('');
   view.innerHTML = `
     <h2>Wie geht es weiter?</h2>
-    <p class="muted">Die Teilnehmerzahl ist auf 60 begrenzt. Stammspieler haben zuerst die Wahl, danach entscheidet bei Überhang das Los.</p>
+    <p class="muted">Die Teilnehmerzahl ist auf 60 begrenzt. Die Anmeldung läuft in zwei Runden: Zuerst haben Stammspieler drei Tage Zeit, danach folgt die offene Anmeldung, ebenfalls mit drei Tagen Frist. Reichen die Plätze in einer Runde nicht aus, entscheidet das Los. Einige Plätze sind für Gäste reserviert, die von Teilnehmern mitgebracht werden.</p>
     <div class="summary" style="margin-top:18px">${meals}</div>
     <div class="actions">
       ${status.phase === 'stamm' ? '<button class="primary" id="goStamm">Ich habe einen Einladungscode</button>' : ''}
@@ -366,8 +405,9 @@ function showForm(kind) {
       <input id="name" name="name" autocomplete="name" required>
       <label for="email">E-Mail *</label>
       <input id="email" type="email" name="email" autocomplete="email" required>
-      <label for="phone">Telefon (für Rückfragen)</label>
-      <input id="phone" type="tel" name="phone" autocomplete="tel">
+      <label for="phone">Telefon *</label>
+      <input id="phone" type="tel" name="phone" autocomplete="tel" required inputmode="tel" data-phone>
+      <p class="hint">Bitte ohne +. Format: 0171 1234567 oder 0049 171 1234567</p>
 
       <fieldset class="fieldset">
         <legend>Deine Verpflegung *</legend>
@@ -378,8 +418,7 @@ function showForm(kind) {
       <input id="guestName" name="guestName" placeholder="Name des Gastes">
       <p class="muted" style="margin-top:8px;font-size:.93rem">Dein Gast wird verlost. Wird er gezogen, erhältst du einen Code zum Weitergeben. Der Gast wählt dann seine Verpflegung und zahlt selbst.</p>
 
-      <div class="check"><input type="checkbox" id="rules"><label for="rules">Ich habe die Anmelderegeln gelesen: Zahlung innerhalb von 3 Tagen, Erstattung bis zum Stichtag ${escapeHtml(status.stichtag)}, danach Nachrückverfahren. *</label></div>
-      <div class="check"><input type="checkbox" id="privacy"><label for="privacy">Ich stimme zu, dass meine Daten nur für die Organisation der Veranstaltung gespeichert und danach gelöscht werden. *</label></div>
+      <div class="check"><input type="checkbox" id="rules"><label for="rules">Ich habe die Anmelderegeln gelesen: Zahlung innerhalb von 3 Tagen, Erstattung bis zum Stichtag ${escapeHtml(germanDate(status.stichtag))}, danach Nachrückverfahren. *</label></div>
       <div class="actions">
         <button type="submit" class="primary" id="submit">Verbindlich anmelden</button>
         <button type="button" class="ghost" id="back">Abbrechen</button>
@@ -403,9 +442,10 @@ function showForm(kind) {
       stammCode: isStamm ? pendingStammCode : ''
     };
     if (!data.name || !data.email) { err.textContent = 'Bitte Name und E-Mail ausfüllen.'; return; }
+    if (!validPhone(data.phone)) { err.textContent = 'Bitte eine gültige Telefonnummer angeben, ohne +. Format: 0171 1234567 oder 0049 171 1234567.'; return; }
     if (!data.meal) { err.textContent = 'Bitte wähle deine Verpflegung.'; return; }
-    if (!document.getElementById('rules').checked || !document.getElementById('privacy').checked) {
-      err.textContent = 'Bitte beide Zustimmungen bestätigen.'; return;
+    if (!document.getElementById('rules').checked) {
+      err.textContent = 'Bitte die Anmelderegeln bestätigen.'; return;
     }
     const btn = document.getElementById('submit');
     btn.disabled = true; btn.textContent = 'Wird gesendet…';
@@ -494,8 +534,9 @@ function showGuestForm(code, g) {
       <input id="gname" value="${escapeHtml(g.guestName)}" autocomplete="name" required>
       <label for="gemail">E-Mail *</label>
       <input id="gemail" type="email" autocomplete="email" required>
-      <label for="gphone">Telefon (für Rückfragen)</label>
-      <input id="gphone" type="tel" autocomplete="tel">
+      <label for="gphone">Telefon *</label>
+      <input id="gphone" type="tel" autocomplete="tel" required inputmode="tel" data-phone>
+      <p class="hint">Bitte ohne +. Format: 0171 1234567 oder 0049 171 1234567</p>
 
       <fieldset class="fieldset">
         <legend>Deine Verpflegung *</legend>
@@ -503,7 +544,6 @@ function showGuestForm(code, g) {
       </fieldset>
 
       <div class="check"><input type="checkbox" id="grules"><label for="grules">Ich habe die Anmelderegeln gelesen: Zahlung innerhalb von 3 Tagen, Erstattung bis zum Stichtag, danach Nachrückverfahren. *</label></div>
-      <div class="check"><input type="checkbox" id="gprivacy"><label for="gprivacy">Ich stimme zu, dass meine Daten nur für die Organisation der Veranstaltung gespeichert und danach gelöscht werden. *</label></div>
       <div class="actions">
         <button type="submit" class="primary" id="gsubmit">Verbindlich anmelden</button>
         <button type="button" class="ghost" id="gback">Abbrechen</button>
@@ -523,9 +563,10 @@ function showGuestForm(code, g) {
       meal: meal ? meal.value : ''
     };
     if (!data.name || !data.email) { err.textContent = 'Bitte Name und E-Mail ausfüllen.'; return; }
+    if (!validPhone(data.phone)) { err.textContent = 'Bitte eine gültige Telefonnummer angeben, ohne +. Format: 0171 1234567 oder 0049 171 1234567.'; return; }
     if (!data.meal) { err.textContent = 'Bitte wähle deine Verpflegung.'; return; }
-    if (!document.getElementById('grules').checked || !document.getElementById('gprivacy').checked) {
-      err.textContent = 'Bitte beide Zustimmungen bestätigen.'; return;
+    if (!document.getElementById('grules').checked) {
+      err.textContent = 'Bitte die Anmelderegeln bestätigen.'; return;
     }
     const btn = document.getElementById('gsubmit');
     btn.disabled = true; btn.textContent = 'Wird gesendet…';
@@ -597,6 +638,14 @@ function showLookup() {
     } catch (e) { err.textContent = e.message; }
   };
 }
+
+// Telefonfeld: kein + erlaubt, nur Ziffern und Leerzeichen
+document.addEventListener('input', (e) => {
+  if (e.target.matches && e.target.matches('[data-phone]')) e.target.value = e.target.value.replace(/[^\d ]/g, '');
+});
+document.addEventListener('keydown', (e) => {
+  if (e.target.matches && e.target.matches('[data-phone]') && e.key === '+') e.preventDefault();
+});
 
 (async function init() {
   view.innerHTML = '<p class="loading">Lade Anmeldung …</p>';
