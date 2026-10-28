@@ -506,10 +506,12 @@ function showConfirm(data, res) {
       <p>Gib diesen Code deinem Gast weiter. Er funktioniert, sobald die Gäste-Verlosung stattgefunden hat und dein Gast gezogen wurde.</p>
       <button id="copy" type="button">Code kopieren</button>
     </div>` : ''}
-    <p class="muted" style="margin-top:18px">Die Zahlungsdaten erhältst du per E-Mail an ${escapeHtml(data.email)}. Ob du einen Platz bekommst, erfährst du nach dem Losverfahren, ebenfalls per E-Mail.</p>
+    <p class="muted" style="margin-top:18px">${data.kind === 'Stamm' ? 'Die Zahlungsdaten erhältst du zusätzlich per E-Mail an ' + escapeHtml(data.email) + '. Ob du einen Platz bekommst, erfährst du nach dem Losverfahren, ebenfalls per E-Mail.' : 'Eine Zahlung ist jetzt noch nicht nötig. Ob du einen Platz bekommst, entscheidet das Los. Gewinnst du, erhältst du die Zahlungsdaten per E-Mail an ' + escapeHtml(data.email) + '.'}</p>
     <div class="actions"><button class="ghost" id="home">Zur Startseite</button></div>`;
-  view.querySelector('.actions').insertAdjacentHTML('beforebegin', paymentBox(res.gebuehr, res.zweck));
-  drawQr(res.gebuehr, res.zweck);
+  if (data.kind === 'Stamm') {
+    view.querySelector('.actions').insertAdjacentHTML('beforebegin', paymentBox(res.gebuehr, res.zweck));
+    drawQr(res.gebuehr, res.zweck);
+  }
   document.getElementById('home').onclick = showHome;
   const copy = document.getElementById('copy');
   if (copy) copy.onclick = async () => {
@@ -621,7 +623,7 @@ function showGuestConfirm(data, res) {
       <div><span>Verpflegung</span><strong>${escapeHtml(m ? m.label : '')}</strong></div>
       <div><span>Gebühr</span><strong>${m ? eur(m.price) : ''} innerhalb von 3 Tagen</strong></div>
     </div>
-    <p class="muted" style="margin-top:18px">Die Zahlungsdaten erhältst du per E-Mail an ${escapeHtml(data.email)}.</p>
+    <p class="muted" style="margin-top:18px">Die Zahlungsdaten erhältst du zusätzlich per E-Mail an ${escapeHtml(data.email)}.</p>
     <div class="actions"><button class="ghost" id="home">Zur Startseite</button></div>`;
   view.querySelector('.actions').insertAdjacentHTML('beforebegin', paymentBox(res.gebuehr, res.zweck));
   drawQr(res.gebuehr, res.zweck);
@@ -649,18 +651,18 @@ function showLookup() {
     try {
       const r = await API.lookup(email);
       if (!r) { res.innerHTML = '<p class="muted">Für diese E-Mail liegt keine Anmeldung vor.</p>'; return; }
-      const labels = { angemeldet: 'Angemeldet, Zahlung ausstehend', bestaetigt: 'Platz bestätigt', bezahlt: 'Platz bestätigt und bezahlt', warte: 'Auf der Warteliste', nachruecker: 'Nachrücker, bitte Zahlung leisten', abgemeldet: 'Abgemeldet', verfallen: 'Verfallen' };
+      const labels = { angemeldet: 'Angemeldet, Zahlung ausstehend', bestaetigt: 'Platz gewonnen, bitte Zahlung leisten', bezahlt: 'Platz bestätigt und bezahlt', warte: 'Auf der Warteliste', nachruecker: 'Nachrücker, bitte Zahlung leisten', abgemeldet: 'Abgemeldet', verfallen: 'Verfallen' };
       const guestLabels = { wartet: 'Verlosung ausstehend', gezogen: 'Gezogen, Gast kann sich anmelden', warte: 'Warteliste', bestaetigt: 'Gast angemeldet', storniert: 'Storniert' };
       res.innerHTML = `
         <div class="summary">
           <div><span>Name</span><strong>${escapeHtml(r.name)}</strong></div>
           <div><span>Verpflegung</span><strong>${escapeHtml(r.meal)}</strong></div>
-          <div><span>Status</span><strong>${escapeHtml(labels[r.status] || r.status)}</strong></div>
+          <div><span>Status</span><strong>${escapeHtml(r.status === 'angemeldet' && r.art === 'Offen' ? 'Angemeldet, Losverfahren ausstehend' : (labels[r.status] || r.status))}</strong></div>
           ${r.guestName ? `<div><span>Gast</span><strong>${escapeHtml(r.guestName)} (${escapeHtml(guestLabels[r.guestState] || '')})</strong></div>` : ''}
         </div>
         ${r.guestCode && r.status !== 'abgemeldet' ? `<div class="code-box"><div class="label">Gast-Code</div><div class="code">${escapeHtml(r.guestCode)}</div><p>Für deinen Gast, sobald er gezogen wurde.</p></div>` : ''}
         ${r.status !== 'abgemeldet' ? `<div class="actions"><button class="danger" id="wd">Rücktritt erklären</button></div>` : ''}`;
-      if (r.referenz && r.gebuehr && r.status !== 'abgemeldet' && r.status !== 'bezahlt') {
+      if (r.referenz && r.gebuehr && (r.status === 'bestaetigt' || r.status === 'nachruecker' || (r.status === 'angemeldet' && r.art !== 'Offen'))) {
         const zweck = (r.referenz + ' ' + r.name).slice(0, 140);
         res.querySelector('.summary').insertAdjacentHTML('afterend', paymentBox(r.gebuehr, zweck));
         drawQr(r.gebuehr, zweck);
