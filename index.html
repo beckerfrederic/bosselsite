@@ -167,6 +167,15 @@
   footer { text-align: center; color: var(--muted); font-size: .85rem; margin: 30px 0 0; }
   .loading { color: var(--muted); font-style: italic; }
   .hint { color: var(--muted); font-size: .88rem; margin: 8px 0 0; }
+  .pay { display: flex; gap: 20px; align-items: flex-start; margin-top: 18px; padding: 18px; border-radius: 18px; background: #fbfbf8; border: 1px solid var(--line); }
+  .pay-qr img { border-radius: 12px; background: #fff; display: block; width: 200px; height: 200px; }
+  .pay-text { flex: 1; min-width: 0; }
+  .pay-text p { margin: 0; }
+  .pay-data { margin: 12px 0 0; }
+  .pay-data > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 7px 0; border-top: 1px solid #ecede7; }
+  .pay-data dt { color: var(--muted); }
+  .pay-data dd { margin: 0; font-weight: 600; word-break: break-all; }
+  @media (max-width: 560px) { .pay { flex-direction: column; } .pay-data > div { grid-template-columns: 1fr; gap: 2px; } }
   .info { margin-top: 16px; }
   .info h2 { margin-bottom: 10px; }
   .facts { margin: 22px 0 0; }
@@ -469,7 +478,7 @@ function showForm(kind) {
     btn.disabled = true; btn.textContent = 'Wird gesendet…';
     try {
       const res = await API.register(data);
-      showConfirm(data, res.guestCode);
+      showConfirm(data, res);
     } catch (ex) {
       err.textContent = ex.message;
       btn.disabled = false; btn.textContent = 'Verbindlich anmelden';
@@ -477,7 +486,8 @@ function showForm(kind) {
   };
 }
 
-function showConfirm(data, guestCode) {
+function showConfirm(data, res) {
+  const guestCode = res.guestCode;
   const own = mealById(data.meal);
   view.innerHTML = `
     <div class="roll-stage" aria-hidden="true"><div class="roll-ball" id="ball"></div></div>
@@ -497,6 +507,8 @@ function showConfirm(data, guestCode) {
     </div>` : ''}
     <p class="muted" style="margin-top:18px">Die Zahlungsdaten erhältst du per E-Mail an ${escapeHtml(data.email)}. Ob du einen Platz bekommst, erfährst du nach dem Losverfahren, ebenfalls per E-Mail.</p>
     <div class="actions"><button class="ghost" id="home">Zur Startseite</button></div>`;
+  view.querySelector('.actions').insertAdjacentHTML('beforebegin', paymentBox(res.gebuehr, res.zweck));
+  drawQr(res.gebuehr, res.zweck);
   document.getElementById('home').onclick = showHome;
   const copy = document.getElementById('copy');
   if (copy) copy.onclick = async () => {
@@ -589,8 +601,8 @@ function showGuestForm(code, g) {
     const btn = document.getElementById('gsubmit');
     btn.disabled = true; btn.textContent = 'Wird gesendet…';
     try {
-      await API.registerGuest(code, data);
-      showGuestConfirm(data);
+      const res = await API.registerGuest(code, data);
+      showGuestConfirm(data, res);
     } catch (ex) {
       err.textContent = ex.message;
       btn.disabled = false; btn.textContent = 'Verbindlich anmelden';
@@ -598,7 +610,7 @@ function showGuestForm(code, g) {
   };
 }
 
-function showGuestConfirm(data) {
+function showGuestConfirm(data, res) {
   const m = mealById(data.meal);
   view.innerHTML = `
     <div class="roll-stage" aria-hidden="true"><div class="roll-ball" id="ball"></div></div>
@@ -610,6 +622,8 @@ function showGuestConfirm(data) {
     </div>
     <p class="muted" style="margin-top:18px">Die Zahlungsdaten erhältst du per E-Mail an ${escapeHtml(data.email)}.</p>
     <div class="actions"><button class="ghost" id="home">Zur Startseite</button></div>`;
+  view.querySelector('.actions').insertAdjacentHTML('beforebegin', paymentBox(res.gebuehr, res.zweck));
+  drawQr(res.gebuehr, res.zweck);
   document.getElementById('home').onclick = showHome;
   requestAnimationFrame(() => { const b = document.getElementById('ball'); if (b) b.classList.add('go'); });
 }
@@ -645,6 +659,11 @@ function showLookup() {
         </div>
         ${r.guestCode && r.status !== 'abgemeldet' ? `<div class="code-box"><div class="label">Gast-Code</div><div class="code">${escapeHtml(r.guestCode)}</div><p>Für deinen Gast, sobald er gezogen wurde.</p></div>` : ''}
         ${r.status !== 'abgemeldet' ? `<div class="actions"><button class="danger" id="wd">Rücktritt erklären</button></div>` : ''}`;
+      if (r.referenz && r.gebuehr && r.status !== 'abgemeldet' && r.status !== 'bezahlt') {
+        const zweck = (r.referenz + ' ' + r.name).slice(0, 140);
+        res.querySelector('.summary').insertAdjacentHTML('afterend', paymentBox(r.gebuehr, zweck));
+        drawQr(r.gebuehr, zweck);
+      }
       const wd = document.getElementById('wd');
       if (wd) wd.onclick = async () => {
         if (!confirm('Rücktritt wirklich erklären?')) return;
@@ -655,6 +674,58 @@ function showLookup() {
       };
     } catch (e) { err.textContent = e.message; }
   };
+}
+
+// Überweisung per QR-Code (GiroCode / EPC-QR)
+let qrReady = null;
+function loadQr_() {
+  if (window.QRCode) return Promise.resolve();
+  if (!qrReady) qrReady = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  return qrReady;
+}
+
+function girocode_(empf, iban, betrag, zweck) {
+  return ['BCD', '002', '1', 'SCT', '', String(empf).slice(0, 70), String(iban).replace(/\s/g, ''),
+    'EUR' + Number(betrag).toFixed(2), '', '', String(zweck).slice(0, 140), ''].join('\n');
+}
+
+function paymentBox(betrag, zweck) {
+  const k = (status && status.konto) || {};
+  if (!k.iban || !k.empfaenger) return '';
+  return `<div class="pay">
+    <div class="pay-qr"><img id="qrImg" alt="QR-Code für die Überweisung"></div>
+    <div class="pay-text">
+      <p class="eyebrow">Überweisung</p>
+      <p class="muted">Scanne den Code mit deiner Banking-App. Dann sind Empfänger, IBAN, Betrag und Verwendungszweck schon eingetragen.</p>
+      <dl class="pay-data">
+        <div><dt>Betrag</dt><dd>${eur(betrag)}</dd></div>
+        <div><dt>Verwendungszweck</dt><dd>${escapeHtml(zweck)}</dd></div>
+        <div><dt>Empfänger</dt><dd>${escapeHtml(k.empfaenger)}</dd></div>
+        <div><dt>IBAN</dt><dd>${escapeHtml(k.iban)}</dd></div>
+      </dl>
+    </div>
+  </div>`;
+}
+
+async function drawQr(betrag, zweck) {
+  const k = (status && status.konto) || {};
+  const img = document.getElementById('qrImg');
+  if (!img || !k.iban) return;
+  try {
+    await loadQr_();
+    img.src = await QRCode.toDataURL(girocode_(k.empfaenger, k.iban, betrag, zweck), { margin: 1, width: 200, errorCorrectionLevel: 'M' });
+  } catch (e) {
+    const hinweis = document.createElement('p');
+    hinweis.className = 'muted';
+    hinweis.textContent = 'Der QR-Code konnte nicht geladen werden. Bitte die Angaben unten manuell eingeben.';
+    img.replaceWith(hinweis);
+  }
 }
 
 // Telefonfeld: kein + erlaubt, nur Ziffern und Leerzeichen
