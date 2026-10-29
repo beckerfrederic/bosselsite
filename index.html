@@ -34,7 +34,7 @@
 
   /* Kopf */
   .top { background: #1b4332; color: #fff; position: relative; overflow: hidden; }
-  .werfer-svg { position: absolute; z-index: 0; left: -20px; bottom: -60px; width: 260px; pointer-events: none; }
+  .werfer-svg { position: absolute; z-index: 0; left: -20px; bottom: -60px; width: 330px; pointer-events: none; }
   .kugel-svg { position: absolute; z-index: 0; right: -30px; bottom: -70px; width: 280px; opacity: .95; animation: float 7s ease-in-out infinite; pointer-events: none; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
   .top::before {
@@ -47,7 +47,7 @@
   .brand .pill { background: rgba(255,255,255,.1); padding: 6px 12px; border-radius: 999px; }
   .top h1 { font-size: clamp(2.3rem, 6vw, 3.9rem); margin-top: 36px; max-width: 13ch; }
   .top p.lead { color: #bfcdc4; max-width: 56ch; margin: 16px 0 0; font-size: 1.05rem; }
-  @media (max-width: 640px) { .werfer-svg { width: 170px; left: -24px; bottom: -36px; opacity: .6; } .kugel-svg { width: 170px; right: -30px; bottom: -40px; opacity: .6; } }
+  @media (max-width: 640px) { .werfer-svg { width: 215px; left: -24px; bottom: -36px; opacity: .6; } .kugel-svg { width: 170px; right: -30px; bottom: -40px; opacity: .6; } }
 
   /* Layout */
   main { max-width: 960px; margin: -56px auto 0; padding: 0 22px 64px; position: relative; z-index: 2; }
@@ -193,35 +193,40 @@
 <body>
 
 <header class="top">
-  <svg class="werfer-svg" viewBox="0 0 260 300" aria-hidden="true">
-    <!-- Bollerwagen (hinter dem Werfer) -->
-    <g fill="rgba(0,0,0,.2)">
-      <rect x="112" y="196" width="104" height="54" rx="4"/>
-      <rect x="122" y="178" width="12" height="22" rx="3"/>
-      <rect x="142" y="176" width="12" height="24" rx="3"/>
-      <rect x="162" y="178" width="12" height="22" rx="3"/>
-      <rect x="182" y="176" width="12" height="24" rx="3"/>
+  <svg class="werfer-svg" viewBox="0 0 330 300" aria-hidden="true">
+    <!-- Bollerwagen links vom Werfer -->
+    <g>
+      <rect x="14" y="190" width="8" height="18" rx="2" fill="#c8842a"/><rect x="13" y="186" width="10" height="5" rx="1.5" fill="#c0c6cf"/><rect x="30" y="190" width="8" height="18" rx="2" fill="#c8842a"/><rect x="29" y="186" width="10" height="5" rx="1.5" fill="#c0c6cf"/><rect x="46" y="190" width="8" height="18" rx="2" fill="#c8842a"/><rect x="45" y="186" width="10" height="5" rx="1.5" fill="#c0c6cf"/><rect x="62" y="190" width="8" height="18" rx="2" fill="#c8842a"/><rect x="61" y="186" width="10" height="5" rx="1.5" fill="#c0c6cf"/><rect x="78" y="190" width="8" height="18" rx="2" fill="#c8842a"/><rect x="77" y="186" width="10" height="5" rx="1.5" fill="#c0c6cf"/>
     </g>
-    <path d="M112 228 L72 252 L58 282" fill="none" stroke="rgba(0,0,0,.2)" stroke-width="7" stroke-linecap="round"/>
-    <circle cx="160" cy="262" r="22" fill="none" stroke="rgba(0,0,0,.2)" stroke-width="8"/>
-    <circle cx="160" cy="262" r="5" fill="rgba(0,0,0,.2)"/>
-    <!-- Werfer -->
-    <g fill="none" stroke="rgba(0,0,0,.32)" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M110 74 L150 50 L170 30" stroke-width="13"/>
-      <path d="M80 76 L62 118 L54 150" stroke-width="11"/>
-      <path d="M100 172 L128 232 L146 292" stroke-width="17"/>
-      <path d="M88 174 L62 232 L44 292" stroke-width="17"/>
+    <g fill="rgba(0,0,0,.28)">
+      <rect x="2" y="206" width="98" height="6" rx="3"/>
+      <rect x="6" y="211" width="90" height="46" rx="5"/>
+      <rect x="6" y="234" width="90" height="2" fill="rgba(0,0,0,.12)"/>
     </g>
-    <path fill="rgba(0,0,0,.32)" d="M78 62 Q100 56 114 66 L106 172 Q94 180 80 172 Z"/>
-    <circle fill="rgba(0,0,0,.32)" cx="96" cy="40" r="18"/>
-    <circle fill="#b5473a" opacity=".85" cx="181" cy="22" r="9"/>
-    <!-- Bierflasche in der linken Hand -->
-    <g transform="rotate(-10 50 160)">
-      <path d="M42 186 L42 170 Q42 163 47 159 L47 151 L53 151 L53 159 Q58 163 58 170 L58 186 Q58 188 56 188 L44 188 Q42 188 42 186 Z" fill="#c8842a"/>
-      <path d="M44.5 176 L44.5 184" stroke="#f3c36b" stroke-width="2" stroke-linecap="round" opacity=".7"/>
-      <rect x="42" y="172" width="16" height="8" fill="#f1e6c8"/>
-      <rect x="45.5" y="143" width="9" height="8" rx="1.5" fill="#c0c6cf"/>
-      <path d="M45.5 146 H54.5 M45.5 149 H54.5" stroke="#8d939c" stroke-width="1"/>
+    <path d="M96 236 L124 222" fill="none" stroke="rgba(0,0,0,.28)" stroke-width="6" stroke-linecap="round"/>
+    <g fill="none" stroke="rgba(0,0,0,.28)" stroke-width="6">
+      <circle cx="50" cy="272" r="14"/>
+    </g>
+    <g stroke="rgba(0,0,0,.28)" stroke-width="2"><path d="M50 258 V286 M36 272 H64 M40 262 L60 282 M60 262 L40 282"/></g>
+    <circle cx="50" cy="272" r="3" fill="rgba(0,0,0,.28)"/>
+    <!-- Werfer mit Bierflasche -->
+    <g transform="translate(70 0)">
+      <g fill="none" stroke="rgba(0,0,0,.32)" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M110 74 L150 50 L170 30" stroke-width="13"/>
+        <path d="M80 76 L62 118 L54 150" stroke-width="11"/>
+        <path d="M100 172 L128 232 L146 292" stroke-width="17"/>
+        <path d="M88 174 L62 232 L44 292" stroke-width="17"/>
+      </g>
+      <path fill="rgba(0,0,0,.32)" d="M78 62 Q100 56 114 66 L106 172 Q94 180 80 172 Z"/>
+      <circle fill="rgba(0,0,0,.32)" cx="96" cy="40" r="18"/>
+      <circle fill="#b5473a" opacity=".85" cx="181" cy="22" r="9"/>
+      <g transform="rotate(-10 50 160)">
+        <path d="M42 186 L42 170 Q42 163 47 159 L47 151 L53 151 L53 159 Q58 163 58 170 L58 186 Q58 188 56 188 L44 188 Q42 188 42 186 Z" fill="#c8842a"/>
+        <path d="M44.5 176 L44.5 184" stroke="#f3c36b" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <rect x="42" y="172" width="16" height="8" fill="#f1e6c8"/>
+        <rect x="45.5" y="143" width="9" height="8" rx="1.5" fill="#c0c6cf"/>
+        <path d="M45.5 146 H54.5 M45.5 149 H54.5" stroke="#8d939c" stroke-width="1"/>
+      </g>
     </g>
   </svg>
   <svg class="kugel-svg" viewBox="0 0 200 200" aria-hidden="true">
